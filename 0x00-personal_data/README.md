@@ -2,7 +2,7 @@
 
 ``Back-end`` | ``Authentification``
 
-![img]()
+![img](https://github.com/AishaKhalfan/alx-backend-user-data/blob/main/0x00-personal_data/data.png)
 
 # Resources
 ### Read or watch:

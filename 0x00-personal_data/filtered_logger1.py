@@ -1,27 +1,31 @@
 #!/usr/bin/env python3
-""" 0. Regex-ing module. """
+"""
+Main file
+"""
+import re
 from typing import List
 import logging
-import re
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class """
+    """ Redacting Formatter class
+        """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: List[str]):
-        """ Constructor of class RedactingFormatter. """
+    def __init__(self):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.FIELDS = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """
         Formats a log message in a human-readable format.
+
         Arguments:
             record: a log record object
+
         Returns:
             a formatted string
         """
@@ -40,7 +44,8 @@ def filter_datum(fields: List[str], redaction: str,
         message: a string representing the log line
         separator: a string representing by which character is separating
     """
+
     for i in fields:
         message = re.sub(i + "=.*?" + separator, i + "=" + redaction
                          + separator, message)
-    return(message)
+    return message

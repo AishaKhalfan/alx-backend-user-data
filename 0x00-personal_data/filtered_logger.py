@@ -19,7 +19,18 @@ class RedactingFormatter(logging.Formatter):
         super(RedactingFormatter, self).__init__(self.FORMAT)
 
     def format(self, record: logging.LogRecord) -> str:
-        NotImplementedError
+        """
+        Formats a log message in a human-readable format.
+
+        Arguments:
+            record: a log record object
+
+        Returns:
+            a formatted string
+        """
+        return filter_datum(self.fields, self.REDACTION,
+                            super(RedactingFormatter, self).format(record),
+                            self.SEPARATOR)
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -27,10 +38,10 @@ def filter_datum(fields: List[str], redaction: str,
     """
     Returns the log message obfuscated.
     Args:
-    fields: a list of strings representing all fields to obfuscate
-    redaction: a string representing by what the field will be obfuscated
-    message: a string representing the log line
-    separator: a string representing by which character is separating
+        fields: a list of strings representing all fields to obfuscate
+        redaction: a string representing by what the field will be obfuscated
+        message: a string representing the log line
+        separator: a string representing by which character is separating
     """
 
     for i in fields:

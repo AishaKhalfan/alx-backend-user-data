@@ -6,7 +6,15 @@ import bcrypt
 
 
 def hash_password(password: str) -> bytes:
-    '''returns a salted, hashed password, which is a byte string'''
+    """
+    Hashes a password using bcrypt.
+
+    Arguments:
+        password: a string representing the password to hash
+
+    Returns:
+        a salted, hashed password, which is a byte string
+    """
     pswd_encoded = password.encode()
     pswd_hashed = bcrypt.hashpw(pswd_encoded, bcrypt.gensalt())
     return pswd_hashed

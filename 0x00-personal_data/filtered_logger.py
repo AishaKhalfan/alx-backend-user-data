@@ -69,15 +69,29 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """Returns a connector to the database."""
-    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
-    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
-    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
-    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+    connection = mysql.connector.connection.MySQLConnection(
+      user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+      password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+      host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+      database=os.getenv('PERSONAL_DATA_DB_NAME')
+    )
+    return connection
 
-    config = { 'user': username,
-               'password': password,
-               'host': host,
-               'database': db_name }
-    
-    connection = mysql.connector.connection.MySQLConnection(**config) 
-    return(connection)
+
+def main():
+    """ Obtaining a database connection. """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+    for row in cursor:
+        message = "name={}; email={}; phone={}; ssn={}; password={};\
+        ip={}; last_login={}; user_agent={}; ".format(
+            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+        logger.info(message)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()

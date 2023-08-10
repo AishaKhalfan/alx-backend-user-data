@@ -43,10 +43,14 @@ def filter_datum(fields: List[str], redaction: str,
         message: a string representing the log line
         separator: a string representing by which character is separating
     """
-    for i in fields:
-        message = re.sub(i + "=.*?" + separator, i + "=" + redaction
-                         + separator, message)
-    return(message)
+    # for i in fields:
+    #     message = re.sub(i + "=.*?" + separator, i + "=" + redaction
+    #                      + separator, message)
+    # return(message)
+    for f in fields:
+        message = re.sub(f'{f}=.*?{separator}',
+                         f'{f}={redaction}{separator}', message)
+    return message
 
 
 def get_logger() -> logging.Logger:

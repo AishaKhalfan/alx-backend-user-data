@@ -32,7 +32,7 @@ class RedactingFormatter(logging.Formatter):
         """
         logging.basicConfig(format=self.FORMAT)
         return (filter_datum(self.FIELDS, self.REDACTION,
-                            super().format(record), self.SEPARATOR))
+                             super().format(record), self.SEPARATOR))
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -95,4 +95,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -31,7 +31,7 @@ class RedactingFormatter(logging.Formatter):
             a formatted string
         """
         logging.basicConfig(format=self.FORMAT)
-        return(filter_datum(self.FIELDS, self.REDACTION,
+        return (filter_datum(self.FIELDS, self.REDACTION,
                             super().format(record), self.SEPARATOR))
 
 
@@ -48,7 +48,7 @@ def filter_datum(fields: List[str], redaction: str,
     for i in fields:
         message = re.sub(i + "=.*?" + separator, i + "=" + redaction
                          + separator, message)
-    return(message)
+    return (message)
 
 
 def get_logger() -> logging.Logger:
@@ -64,7 +64,7 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
 
-    return(logger)
+    return (logger)
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
@@ -95,3 +95,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

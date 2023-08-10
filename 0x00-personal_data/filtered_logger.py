@@ -5,9 +5,6 @@ import logging
 import re
 
 
-PII_FIELDS = ("name", "email", "phone", "ssn", "password")
-
-
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class """
 
@@ -21,13 +18,7 @@ class RedactingFormatter(logging.Formatter):
         self.FIELDS = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """
-        Formats a log message in a human-readable format.
-        Arguments:
-            record: a log record object
-        Returns:
-            a formatted string
-        """
+        """ Formatting method. """
         logging.basicConfig(format=self.FORMAT)
         return(filter_datum(self.FIELDS, self.REDACTION,
                             super().format(record), self.SEPARATOR))
@@ -35,14 +26,7 @@ class RedactingFormatter(logging.Formatter):
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
-    """
-    Returns the log message obfuscated.
-    Args:
-        fields: a list of strings representing all fields to obfuscate
-        redaction: a string representing by what the field will be obfuscated
-        message: a string representing the log line
-        separator: a string representing by which character is separating
-    """
+    """ Returns an obfuscated message given the fields to obfuscate. """
     for i in fields:
         message = re.sub(i + "=.*?" + separator, i + "=" + redaction
                          + separator, message)
@@ -51,7 +35,7 @@ def filter_datum(fields: List[str], redaction: str,
 
 def get_logger() -> logging.Logger:
     """takes no arguments and returns a logging.Logger object."""
-    logging.getLogger(name=user_data)
+    logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
 
@@ -59,9 +43,7 @@ def get_logger() -> logging.Logger:
 
     # Create a stream handler
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(formatter)
-
     logger.addHandler(stream_handler)
 
-    return logger
+    return(logger)

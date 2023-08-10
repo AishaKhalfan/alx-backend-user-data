@@ -1,9 +1,7 @@
 import bcrypt
-# password = b"super secret password"
 
-def hash_password(password: str):
+def hash_password(password: str) -> bytes:
     '''returns a salted, hashed password, which is a byte string'''
-    # password = b""
-    salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed
+    pswd_encoded = password.encode()
+    pswd_hashed = bcrypt.hashpw(pswd.encoded, bcrypt.gensalt())
+    return pswd_hashed

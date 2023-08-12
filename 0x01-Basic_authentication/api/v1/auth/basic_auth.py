@@ -72,7 +72,7 @@ class BasicAuth(Auth):
         """
         from models.user import User
 
-        user =User()
+        user = User()
         if user_email is None or not isinstance(user_email, str):
             return None
         if user_pwd is None or not isinstance(user_pwd, str):

@@ -5,6 +5,7 @@ Authorization module for the API
 from flask import request
 from typing import List, TypeVar
 
+
 class Auth:
     """
     Authentication class
@@ -14,7 +15,7 @@ class Auth:
         Checks if authentication is required for the given path.
         Args:
             path (str): The path to check.
-            excluded_paths (List[str]): List of paths that are excluded from authentication.
+            excluded_paths (List[str]):excluded from authentication.
         Returns:
             bool: True if authentication is required, False otherwise.
         """

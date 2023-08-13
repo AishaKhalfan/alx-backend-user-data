@@ -25,10 +25,10 @@ class Auth:
         # path = path.strip('/')
         # return path not in excluded_paths
         # WE ADD SLASH TO ALL CASES FOR CONSISTENCY
-        if path[-1] != '/*':
-            path += '/*'
-        if excluded_paths[-1] != '/*':
-            excluded_paths += '/*'
+        if path[-1] != '*':
+            path += '*'
+        if excluded_paths[-1] != '*':
+            excluded_paths += '*'
         if path in excluded_paths:
             return False
         return True

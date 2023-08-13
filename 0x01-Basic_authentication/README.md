@@ -1,5 +1,30 @@
-﻿![](Top.png)
+﻿# 0x01. Basic authentication
+``Back-end`` | ``Authentification``
 
+## Background Context
+In this project, you will learn what the authentication process means and implement a Basic Authentication on a simple API.
+
+In the industry, you should not implement your own Basic authentication system and use a module or framework that doing it for you (like in Python-Flask: [Flask-HTTPAuth](https://flask-httpauth.readthedocs.io/en/latest/)). Here, for the learning purpose, we will walk through each step of this mechanism to understand it by doing.
+
+![img]()
+## Resources
+**Read or watch:**
+
+- [REST API Authentication Mechanisms](https://www.youtube.com/watch?v=501dpx2IjGY)
+- [Base64 in Python](https://docs.python.org/3.7/library/base64.html)
+- [HTTP header Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization)
+- [Flask](https://palletsprojects.com/p/flask/))
+- [Base64 - concept](https://en.wikipedia.org/wiki/Base64)
+
+# Learning Objectives
+At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
+
+## General
+- What authentication means
+- What Base64 is
+- How to encode a string in Base64
+- What Basic authentication means
+- How to send the Authorization header
 
 # Requirements
 
@@ -61,18 +86,18 @@ In this archive, you will find a simple API with one model: User. Storage of the
 ## Setup and start server
 
 ```sh
-bob@dylan:~$ pip3 install -r requirements.txt
+khalfan@aisha:~$ pip3 install -r requirements.txt
 ...
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
  * Serving Flask app "app" (lazy loading)
 ...
-bob@dylan:~$
+khalfan@aisha:~$
 ```
 
 ## Use the API (in another tab or in your browser)
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status" -vvv
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status" -vvv
 *   Trying 0.0.0.0...
 * TCP_NODELAY set
 * Connected to 0.0.0.0 (127.0.0.1) port 5000 (#0)
@@ -91,9 +116,12 @@ bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status" -vvv
 < 
 {"status":"OK"}
 * Closing connection 0
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
 
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
 
 **1. Error handler: Unauthorized**
 
@@ -118,7 +146,7 @@ By calling abort(401), the error handler for 401 will be executed.
 In the first terminal:
 
 ```sh
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 ```
@@ -126,12 +154,12 @@ bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
 In a second terminal:
 
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/unauthorized"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/unauthorized"
 {
   "error": "Unauthorized"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/unauthorized" -vvv
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/unauthorized" -vvv
 *   Trying 0.0.0.0...
 * TCP_NODELAY set
 * Connected to 0.0.0.0 (127.0.0.1) port 5000 (#0)
@@ -151,8 +179,13 @@ bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/unauthorized" -vvv
   "error": "Unauthorized"
 }
 * Closing connection 0
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/app.py, api/v1/views/index.py
 
 **2. Error handler: Forbidden**
 
@@ -176,7 +209,7 @@ By calling abort(403), the error handler for 403 will be executed.
 
 In the first terminal:
 ```sh
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 ```
@@ -184,12 +217,12 @@ bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
 In a second terminal:
 
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/forbidden"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/forbidden"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/forbidden" -vvv
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/forbidden" -vvv
 *   Trying 0.0.0.0...
 * TCP_NODELAY set
 * Connected to 0.0.0.0 (127.0.0.1) port 5000 (#0)
@@ -209,8 +242,13 @@ bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/forbidden" -vvv
   "error": "Forbidden"
 }
 * Closing connection 0
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/app.py, api/v1/views/index.py
 
 **3. Auth class**
 
@@ -231,7 +269,7 @@ Now you will create a class to manage the API authentication.
 This class is the template for all authentication system you will implement.
 
 ```sh
-bob@dylan:~$ cat main_0.py
+khalfan@aisha:~$ cat main_0.py
 #!/usr/bin/env python3
 """ Main 0
 """
@@ -243,13 +281,18 @@ print(a.require_auth("/api/v1/status/", ["/api/v1/status/"]))
 print(a.authorization_header())
 print(a.current_user())
 
-bob@dylan:~$ 
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_0.py
+khalfan@aisha:~$ 
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_0.py
 False
 None
 None
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth, api/v1/auth/__init__.py, api/v1/auth/auth.py
 
 **4. Define which routes don't need authentication**
 
@@ -264,7 +307,7 @@ Update the method def require_auth(self, path: str, excluded_paths: List[str]) -
 - This method must be slash tolerant: path=/api/v1/status and path=/api/v1/status/ must be returned False if excluded_paths contains /api/v1/status/
 
 ```sh
-bob@dylan:~$ cat main_1.py
+khalfan@aisha:~$ cat main_1.py
 #!/usr/bin/env python3
 """ Main 1
 """
@@ -280,8 +323,8 @@ print(a.require_auth("/api/v1/status", ["/api/v1/status/"]))
 print(a.require_auth("/api/v1/users", ["/api/v1/status/"]))
 print(a.require_auth("/api/v1/users", ["/api/v1/status/", "/api/v1/stats"]))
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_1.py
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_1.py
 True
 True
 True
@@ -289,8 +332,13 @@ False
 False
 True
 True
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/auth.py
 
 **5. Request validation!**
 
@@ -323,35 +371,39 @@ Now the biggest piece is the filtering of each request. For that you will use th
 In the first terminal:
 
 ```sh
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=auth python3 -m api.v1.app
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=auth python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 ```
 
 In a second terminal:
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status"
 {
   "status": "OK"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status/"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status/"
 {
   "status": "OK"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users"
 {
   "error": "Unauthorized"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
 
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/app.py, api/v1/auth/auth.py
 
 **6. Basic auth**
 
@@ -369,7 +421,7 @@ Otherwise, keep the previous mechanism with auth an instance of Auth.
 In the first terminal:
 
 ```sh
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 ```
@@ -377,27 +429,32 @@ bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.
 In a second terminal:
 
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status"
 {
   "status": "OK"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status/"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status/"
 {
   "status": "OK"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users"
 {
   "error": "Unauthorized"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/app.py, api/v1/auth/basic_auth.py
 
 **7. Basic - Base64 part**
 
@@ -412,7 +469,7 @@ Add the method def extract_base64_authorization_header(self, authorization_heade
 - You can assume authorization_header contains only one Basic
 
 ```sh
-bob@dylan:~$ cat main_2.py
+khalfan@aisha:~$ cat main_2.py
 #!/usr/bin/env python3
 """ Main 2
 """
@@ -428,8 +485,8 @@ print(a.extract_base64_authorization_header("Basic SG9sYmVydG9u"))
 print(a.extract_base64_authorization_header("Basic SG9sYmVydG9uIFNjaG9vbA=="))
 print(a.extract_base64_authorization_header("Basic1234"))
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_2.py
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_2.py
 None
 None
 None
@@ -437,8 +494,13 @@ Holberton
 SG9sYmVydG9u
 SG9sYmVydG9uIFNjaG9vbA==
 None
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **8. Basic - Base64 decode**
 
@@ -452,7 +514,7 @@ Add the method def decode_base64_authorization_header(self, base64_authorization
 - Otherwise, return the decoded value as UTF8 string - you can use decode('utf-8')
 
 ```sh
-bob@dylan:~$ cat main_3.py
+khalfan@aisha:~$ cat main_3.py
 #!/usr/bin/env python3
 """ Main 3
 """
@@ -467,16 +529,21 @@ print(a.decode_base64_authorization_header("SG9sYmVydG9u"))
 print(a.decode_base64_authorization_header("SG9sYmVydG9uIFNjaG9vbA=="))
 print(a.decode_base64_authorization_header(a.extract_base64_authorization_header("Basic SG9sYmVydG9uIFNjaG9vbA==")))
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_3.py
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_3.py
 None
 None
 None
 Holberton
 Holberton School
 Holberton School
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **9. Basic - User credentials**
 
@@ -492,7 +559,7 @@ Add the method def extract_user_credentials(self, decoded_base64_authorization_h
 - You can assume decoded_base64_authorization_header will contain only one :
 
 ```sh
-bob@dylan:~$ cat main_4.py
+khalfan@aisha:~$ cat main_4.py
 #!/usr/bin/env python3
 """ Main 4
 """
@@ -506,15 +573,20 @@ print(a.extract_user_credentials("Holberton School"))
 print(a.extract_user_credentials("Holberton:School"))
 print(a.extract_user_credentials("bob@gmail.com:toto1234"))
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_4.py
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_4.py
 (None, None)
 (None, None)
 (None, None)
 ('Holberton', 'School')
 ('bob@gmail.com', 'toto1234')
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **10. Basic - User object**
 
@@ -529,7 +601,7 @@ Add the method def user_object_from_credentials(self, user_email: str, user_pwd:
 - Otherwise, return the User instance
 
 ```sh
-bob@dylan:~$ cat main_5.py
+khalfan@aisha:~$ cat main_5.py
 #!/usr/bin/env python3
 """ Main 5
 """
@@ -567,16 +639,21 @@ print(u.display_name() if u is not None else "None")
 u = a.user_object_from_credentials(user_email, user_clear_pwd)
 print(u.display_name() if u is not None else "None")
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_5.py 
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_5.py 
 New user: Bob Dylan
 None
 None
 None
 None
 Bob Dylan
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **11. Basic - Overload current_user - and BOOM!**
 
@@ -597,7 +674,7 @@ Enjoy!
 In the first terminal:
 
 ```sh
-bob@dylan:~$ cat main_6.py
+khalfan@aisha:~$ cat main_6.py
 #!/usr/bin/env python3
 """ Main 6
 """
@@ -617,12 +694,12 @@ user.save()
 basic_clear = "{}:{}".format(user_email, user_clear_pwd)
 print("Basic Base64: {}".format(base64.b64encode(basic_clear.encode('utf-8')).decode("utf-8")))
 
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_6.py 
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_6.py 
 New user: 9375973a-68c7-46aa-b135-29f79e837495 / bob@hbtn.io
 Basic Base64: Ym9iQGhidG4uaW86SDBsYmVydG9uU2Nob29sOTgh
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 
@@ -632,27 +709,27 @@ In a second terminal:
 
 ```sh
 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status"
 {
   "status": "OK"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users"
 {
   "error": "Unauthorized"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic test"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym9iQGhidG4uaW86SDBsYmVydG9uU2Nob29sOTgh"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym9iQGhidG4uaW86SDBsYmVydG9uU2Nob29sOTgh"
 [
   {
     "created_at": "2017-09-25 01:55:17", 
@@ -663,8 +740,13 @@ bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym
     "updated_at": "2017-09-25 01:55:17"
   }
 ]
-bob@dylan:~$ 
+khalfan@aisha:~$ 
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **12. Basic - Allow password with ":"**
 
@@ -675,7 +757,7 @@ Improve the method def extract_user_credentials(self, decoded_base64_authorizati
 In the first terminal:
 
 ```sh
-bob@dylan:~$ cat main_100.py
+khalfan@aisha:~$ cat main_100.py
 #!/usr/bin/env python3
 """ Main 100
 """
@@ -696,12 +778,12 @@ user.save()
 basic_clear = "{}:{}".format(user_email, user_clear_pwd)
 print("Basic Base64: {}".format(base64.b64encode(basic_clear.encode('utf-8')).decode("utf-8")))
 
-bob@dylan:~$ 
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_100.py 
+khalfan@aisha:~$ 
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 ./main_100.py 
 New user: 5891469b-d2d5-4d33-b05d-02617d665368
 Basic Base64: Ym9iMTAwQGhidG4uaW86SDBsYmVydG9uOlNjaG9vbDo5OCE=
-bob@dylan:~$
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
+khalfan@aisha:~$
+khalfan@aisha:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.v1.app
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ....
 ```
@@ -709,27 +791,27 @@ bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=basic_auth python3 -m api.
 In a second terminal:
 
 ```sh
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/status"
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/status"
 {
   "status": "OK"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users"
 {
   "error": "Unauthorized"
 }
-bob@dylan:~$ 
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
+khalfan@aisha:~$ 
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic test"
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic test"
 {
   "error": "Forbidden"
 }
-bob@dylan:~$
-bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym9iMTAwQGhidG4uaW86SDBsYmVydG9uOlNjaG9vbDo5OCE="
+khalfan@aisha:~$
+khalfan@aisha:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym9iMTAwQGhidG4uaW86SDBsYmVydG9uOlNjaG9vbDo5OCE="
 [
   {
     "created_at": "2017-09-25 01:55:17", 
@@ -748,8 +830,13 @@ bob@dylan:~$ curl "http://0.0.0.0:5000/api/v1/users" -H "Authorization: Basic Ym
     "updated_at": "2017-09-25 01:59:42"
   }
 ]
-bob@dylan:~$
+khalfan@aisha:~$
 ```
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/basic_auth.py
 
 **13. Require auth with stars**
 
@@ -762,3 +849,8 @@ Example for excluded_paths = ["/api/v1/stat*"]:
 - /api/v1/users will return True
 - /api/v1/status will return False
 - /api/v1/stats will return False
+Repo:
+
+- GitHub repository: alx-backend-user-data
+- Directory: 0x01-Basic_authentication
+- File: api/v1/auth/auth.py

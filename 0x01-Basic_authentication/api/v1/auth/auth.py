@@ -23,12 +23,12 @@ class Auth:
             return True
         # WE ADD SLASH TO ALL CASES FOR CONSISTENCY
         # Add wildcard if missing
-        if path[-1:] != '/':
+        if path[-1] is not '/':
             path += '/'
 
         for paths in excluded_paths:
             if paths.endswith('*'):
-                if path.startswith[:-1]):
+                if path.startswith(paths[:-1]):
                     return False
                 elif path == paths:
                     return False

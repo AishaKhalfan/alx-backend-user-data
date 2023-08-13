@@ -4,6 +4,7 @@
 from api.v1.auth.auth import Auth
 import base64
 from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -70,8 +71,6 @@ class BasicAuth(Auth):
         Returns the User instance based on his
         email and password
         """
-        from models.user import User
-
         user = User()
         if user_email is None or not isinstance(user_email, str):
             return None
@@ -84,4 +83,18 @@ class BasicAuth(Auth):
             return None
         if not user.is_valid_password(user_pwd):
             return None
+        return user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        overloads Auth and retrieves the User instance for a request:
+        """
+        if request is None:
+            return None
+
+        auth_header = self.authorization_header(request)
+        base64_auth = self.extract_base64_authorization_header(auth_header)
+        decoded_auth = self.decode_base64_authorization_header(base64_auth)
+        email, pwd = self.extract_user_credentials(decoded_auth)
+        user = self.user_object_from_credentials(email, pwd)
         return user

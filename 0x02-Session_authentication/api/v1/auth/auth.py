@@ -4,6 +4,9 @@ Authorization module for the API
 """
 from flask import request
 from typing import List, TypeVar
+from os import getenv
+
+SESSION_NAME = getenv('SESSION_NAME')
 
 
 class Auth:
@@ -54,3 +57,13 @@ class Auth:
         Get current user from request
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Returns a cookie value from a request
+        """
+        if request is None:
+            return None
+
+        session_cookie = request.cookies.get(SESSION_NAME)
+        return session_cookie

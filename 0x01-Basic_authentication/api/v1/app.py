@@ -13,16 +13,16 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
-if os.getenv('AUTH_TYPE') == 'auth':
+if getenv('AUTH_TYPE') == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
-elif os.getenv('AUTH_TYPE') == 'basic_auth':
+elif getenv('AUTH_TYPE') == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
 
 @app.before_request
-def before_request():
+def before_request() -> str:
     """filtering of each request
     """
     if auth is None:
@@ -30,7 +30,6 @@ def before_request():
     excluded_paths = ['/api/v1/status/',
                       '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
-    # if request.path not in excluded_paths:
     if not auth.require_auth(request.path, excluded_paths):
         return
 

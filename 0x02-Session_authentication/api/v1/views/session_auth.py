@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Authorization Session views
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models.user import User
 
@@ -25,15 +25,15 @@ def login() -> str:
     if len(existing_user) == 0:
         return jsonify({"error": "no user found for this email" }), 404
 
-    if not User.is_valid_password(password):
-        return jsonify({ "error": "wrong password" })
+    # if not User.is_valid_password(password):
+        # return jsonify({ "error": "wrong password" })
 
     from api.v1.app import auth
     for user in existing_user:
-        if (user.isvalid_passworrd(password)):
+        if (user.is_valid_password(password)):
             session_id = auth.create_session(user_id)
             SESSION_NAME = getenv('SESSION_NAME')
-            respones = user.to_json()
+            response = user.to_json()
             response.set_cookie(SESSION_NAME, session_id)
             return response
 

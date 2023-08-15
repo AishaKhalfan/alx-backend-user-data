@@ -6,7 +6,6 @@ from api.v1.views import app_views
 from models.user import User
 
 
-
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """ POST /api/v1/auth_session/login
@@ -19,14 +18,11 @@ def login() -> str:
 
     password = request.form.get("password")
     if not password:
-        return jsonify({"error": "password missing"}),400
+        return jsonify({"error": "password missing"}), 400
 
     existing_user = User.search({"email": email})
     if len(existing_user) == 0:
-        return jsonify({"error": "no user found for this email" }), 404
-
-    # if not User.is_valid_password(password):
-        # return jsonify({ "error": "wrong password" })
+        return jsonify({"error": "no user found for this email"}), 404
 
     from api.v1.app import auth
     for user in existing_user:

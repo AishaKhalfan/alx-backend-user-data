@@ -23,7 +23,8 @@ def login() -> str:
 
     existing_user = User.search({"email": email})
     if len(existing_user) == 0:
-        return make_response(jsonify({"error": "no user found for this email"}), 404)
+        error = "no user found for this email"
+        return make_response(jsonify({"error": error}), 404)
 
     from api.v1.app import auth
     for user in existing_user:

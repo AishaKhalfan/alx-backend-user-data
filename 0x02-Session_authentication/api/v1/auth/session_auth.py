@@ -69,7 +69,7 @@ class SessionAuth(Auth):
             return False
 
         try:
-            del elf.user_id_by_session_id[session_id]
+            del self.user_id_by_session_id[session_id]
         except Exception:
             pass
 

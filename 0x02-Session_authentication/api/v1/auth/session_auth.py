@@ -6,7 +6,7 @@ from api.v1.auth.auth import Auth
 from models.user import User
 from uuid import uuid4
 import uuid
-from typing import Dict
+from typing import Dict, TypeVar
 
 
 class SessionAuth(Auth):

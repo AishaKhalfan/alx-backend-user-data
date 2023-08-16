@@ -37,7 +37,7 @@ def login() -> str:
 
     return make_response(jsonify({"error": "wrong password"}), 401)
 
-    @app_views.route('/auth_session/login', methods=[
+    @app_views.route('/auth_session/logout', methods=[
                     'DELETE'], strict_slashes=False)
     def destroy_session(self, request=None):
         """
@@ -57,9 +57,12 @@ def login() -> str:
         if user_id is None:
             return False
 
-        try:
-            del self.user_id_by_session_id[session_id]
-        except Exception:
-            pass
-
+        self.user_id_by_session_id.pop(session_id)
         return True
+
+    from api.v1.app import auth
+    @app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+    def logout():
+        if not auth.destroy_session(request):
+            abort(404)
+        return jsonify({}), 200

@@ -61,15 +61,15 @@ class SessionAuth(Auth):
             return False
 
         session_id = self.session_cookie(request)
-        if not session_id:
+        if session_id is None:
             return False
 
-        user_id = self.user_id_for_session_id(user.id)
-        if not user_id:
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
             return False
 
         try:
-            del elf.user_id_by_session_id[sessio_id]
+            del elf.user_id_by_session_id[session_id]
         except Exception:
             pass
 

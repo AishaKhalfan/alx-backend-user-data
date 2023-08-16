@@ -41,7 +41,7 @@ def login() -> str:
                     'DELETE'], strict_slashes=False)
     def logout(self, request=None):
         """
-        Deletes the user session / logout:
+        Logout user session / logout:
         """
         from api.v1.app import auth
         isdestroy = auth.destroy_session(request)

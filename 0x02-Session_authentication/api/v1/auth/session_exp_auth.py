@@ -11,14 +11,8 @@ class SessionExpAuth(SessionAuth):
     """ Session Expiration """
 
     def __init__(self):
-        SESSION_DURATION = getenv('SESSION_DURATION', 0)
-
-        try:
-            SESSION_DURATION = int(SESSION_DURATION)
-        except Exception:
-            SESSION_DURATION = 0
-
-        self.session_duration = SESSION_DURATION
+        expire_seconds = int(getenv('SESSION_DURATION', 0))
+        self.session_duration = expire_seconds
 
     def create_session(self, user_id=None):
         """
@@ -33,11 +27,11 @@ class SessionExpAuth(SessionAuth):
         if session_id is None:
             return None
 
-        session_dictionary: Dict = {
+        session_dict: Dict = {
             "user_id": user_id,
             "created_at": datetime.now()
         }
-        self.user_id_by_session_id[session_id] = session_dictionary
+        self.user_id_by_session_id[session_id] = session_dict
 
         return session_id
 
@@ -49,22 +43,26 @@ class SessionExpAuth(SessionAuth):
             Return:
                 User ID if not is expired
         """
-        if session_id is None or\
-           session_id not in self.user_id_by_session_id.keys():
+        if session_id is None:
             return None
 
-        session_dictionary = self.user_id_by_session_id.get(session_id)
+        session_dict = self.user_id_by_session_id.get(session_id)
+        if session_dict is None:
+            return None
 
-        if self.session_duration <= 0 or session_dictionary is None:
-            return session_dictionary.get('user_id', None)
+        user_id = session_dict.get('user_id')
+        if user_id is None:
+            return None
 
-        created_by = session_dictionary.get('created_at', None)
+        if self.session_duration <= 0:
+            return user_id
+
+        created_by = session_dict.get('created_at')
         if created_by is None:
             return None
 
         expired_session = created_by + timedelta(seconds=self.session_duration)
-
         if expired_session < datetime.now():
             return None
 
-        return session_dictionary.get('user_id', None)
+        return user_id

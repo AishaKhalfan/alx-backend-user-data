@@ -16,10 +16,9 @@ class SessionExpAuth(SessionAuth):
             SESSION_DURATION = int(SESSION_DURATION)
         except Exception:
             SESSION_DURATION = 0
-        
+
         self.session_duration = SESSION_DURATION
 
-    
     def create_session(self, user_id=None):
         """
             Make a new Session and register in the class with time
@@ -72,4 +71,3 @@ class SessionExpAuth(SessionAuth):
             return None
 
         return session_dictionary.get('user_id', None)
-

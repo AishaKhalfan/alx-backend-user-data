@@ -57,22 +57,9 @@ def login() -> str:
         if user_id is None:
             return False
 
-        # self.user_id_by_session_id.pop(session_id, None)
-        # return True
-
-        from api.v1.app import auth
-        if user_id is not None:
+        try:
             del self.user_id_by_session_id[session_id]
-            return True
-        return False
+        except Exception:
+            pass
 
-    '''
-    @app_views.route('/auth_session/logout', methods=[
-                     'DELETE'], strict_slashes=False)
-    def logout():
-        """
-        """
-        if not auth.destroy_session(request):
-            abort(404)
-        return jsonify({}), 200
-    '''
+        return True

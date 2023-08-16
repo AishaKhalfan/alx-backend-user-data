@@ -36,3 +36,32 @@ def login() -> str:
             return response
 
     return make_response(jsonify({"error": "wrong password"}), 401)
+
+    @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+    def destroy_session(self, request=None):
+        """
+        Deletes the user session / logout:
+        POST /api/v1/auth_session/logout
+        Return:
+          -
+        """
+        if request is None:
+            return False
+
+        session_id = self.session_cookie(request)
+        if session_id is None:
+            return False
+
+        user_id = self.user_id_for_session_id(user.id)
+        if user_id is None:
+            return False
+
+        # self.user_id_by_session_id.pop(session_id, None)
+        # return True
+
+        from api.v1.app import auth
+        if user_id is not None:
+            del self.user_id_by_session_id[session_id]
+            return True
+        return False
+

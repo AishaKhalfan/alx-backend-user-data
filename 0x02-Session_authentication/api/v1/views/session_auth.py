@@ -38,7 +38,7 @@ def login() -> str:
     return make_response(jsonify({"error": "wrong password"}), 401)
 
     @app_views.route('/auth_session/login', methods=[
-                    'POST'], strict_slashes=False)
+                    'DELETE'], strict_slashes=False)
     def destroy_session(self, request=None):
         """
         Deletes the user session / logout:
@@ -66,6 +66,7 @@ def login() -> str:
             return True
         return False
 
+    '''
     @app_views.route('/auth_session/logout', methods=[
                      'DELETE'], strict_slashes=False)
     def logout():
@@ -74,3 +75,4 @@ def login() -> str:
         if not auth.destroy_session(request):
             abort(404)
         return jsonify({}), 200
+    '''

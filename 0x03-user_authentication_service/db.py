@@ -54,14 +54,14 @@ class DB:
         if not kwargs:
             raise InvalidRequestError
 
-        cols_keys = User.__table__.columns.keys()
-        for key in kwargs.keys():
-            if key not in cols_keys:
-                raise InvalidRequestError
+        # cols_keys = User.__table__.columns.keys()
+        # for key in kwargs.keys():
+            # if key not in cols_keys:
+                # raise InvalidRequestError
 
         users = self._session.query(User).filter_by(**kwargs).first()
-
-        if users is None:
+        # if users in None:
+        if not users:
             raise NoResultFound
 
         return users
